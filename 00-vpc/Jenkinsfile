@@ -9,14 +9,15 @@ pipeline {
         PROJECT    = "roboshop"
     }
 
-    /* options {
+    options {
         timeout(time: 30, unit: 'MINUTES') 
         disableConcurrentBuilds()
+        ansiColor('xterm')   // enables colored logs
     }
 
-    parameters {
-        booleanParam(name: 'deploy', defaultValue: false, description: 'Toggle this value')
-    } */
+    // parameters {
+    //     booleanParam(name: 'deploy', defaultValue: false, description: 'Toggle this value')
+    // }
 
     stages {
         stage('init') {
