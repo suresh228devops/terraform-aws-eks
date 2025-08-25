@@ -25,7 +25,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-creds', region: env.REGION) {
                         sh """
-                           cd 00-vpc
+                           cd 70-frontend-alb
                            terraform init -reconfigure
                         """
                     }
@@ -38,7 +38,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-creds', region: env.REGION) {
                         sh """
-                           cd 00-vpc
+                           cd 70-frontend-alb
                            terraform plan
                         """
                     }
@@ -46,29 +46,14 @@ pipeline {
             }
         }
         stage('apply') {
-            input {
-               message "Should we continue?"
-               ok "Yes, we should."
-               submitter "alice,bob"
-            }
             steps {
                 script {
                     withAWS(credentials: 'aws-creds', region: env.REGION) {
                         sh """
-                           cd 00-vpc
+                           cd 70-frontend-alb
                            terraform apply -auto-approve
                         """
                     }
-                }
-            }
-        }
-
-        stage('Trigger SG') {
-            steps {
-                script {
-                    build job: '10-sg', 
-                      propagate: false,  // even SG fails VPC will not be effected
-                      wait: false // VPC will not wait for SG pipeline completion
                 }
             }
         }
